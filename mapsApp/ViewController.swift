@@ -6,14 +6,38 @@
 //
 
 import UIKit
+import MapKit
 
 class ViewController: UIViewController {
+    
+    fileprivate let locationManager = CLLocationManager()
 
+    @IBOutlet weak var mapView: MKMapView!
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        locationManager.delegate = self
+        mapView.delegate = self
+        locationManager.requestWhenInUseAuthorization()
+        locationManager.desiredAccuracy = CLLocationAccuracy(90)
+        locationManager.distanceFilter = kCLDistanceFilterNone
+        locationManager.stopUpdatingLocation()
+        mapView.showsUserLocation = true
+        
     }
 
 
 }
 
+
+extension ViewController : CLLocationManagerDelegate {
+    
+    
+}
+
+
+extension ViewController : MKMapViewDelegate {
+    
+    
+}
