@@ -18,22 +18,67 @@
                         <subviews>
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="9cP-JX-OlE">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <gestureRecognizers/>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="zLn-Qn-oQr" appends="YES" id="H8P-lf-nnV"/>
+                                </connections>
                             </mapView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="loi-HC-LGz">
+                                <rect key="frame" x="0.0" y="756" width="414" height="140"/>
+                                <subviews>
+                                    <segmentedControl opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="top" segmentControlStyle="plain" selectedSegmentIndex="0" translatesAutoresizingMaskIntoConstraints="NO" id="hyO-Lo-Lkg">
+                                        <rect key="frame" x="30" y="83" width="354" height="31"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="30" id="xcI-jH-a1F"/>
+                                        </constraints>
+                                        <segments>
+                                            <segment title="origin"/>
+                                            <segment title="sputnik"/>
+                                        </segments>
+                                    </segmentedControl>
+                                    <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vPc-R2-6j0">
+                                        <rect key="frame" x="139" y="31" width="128" height="30"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <fontDescription key="fontDescription" type="system" weight="medium" pointSize="12"/>
+                                        <state key="normal" title="add annotation">
+                                            <color key="titleColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="tappedAddAnnotationButton:" destination="BYZ-38-t0r" eventType="touchUpInside" id="EHR-Ib-4uc"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemGrayColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="bottom" secondItem="hyO-Lo-Lkg" secondAttribute="bottom" constant="27" id="DSW-xK-ZH4"/>
+                                    <constraint firstAttribute="trailing" secondItem="hyO-Lo-Lkg" secondAttribute="trailing" constant="30" id="EHC-CK-auc"/>
+                                    <constraint firstItem="hyO-Lo-Lkg" firstAttribute="leading" secondItem="loi-HC-LGz" secondAttribute="leading" constant="30" id="FTB-OM-H9R"/>
+                                    <constraint firstAttribute="height" constant="140" id="Zmk-iN-Vd0"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
                             <constraint firstItem="9cP-JX-OlE" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="5B7-A1-Tst"/>
                             <constraint firstItem="9cP-JX-OlE" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="98S-na-7Xq"/>
+                            <constraint firstItem="loi-HC-LGz" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="QAg-wy-Wlq"/>
+                            <constraint firstAttribute="bottom" secondItem="loi-HC-LGz" secondAttribute="bottom" id="Zx2-Rn-ok0"/>
                             <constraint firstAttribute="bottom" secondItem="9cP-JX-OlE" secondAttribute="bottom" id="cAo-jG-LsR"/>
+                            <constraint firstItem="loi-HC-LGz" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="wpw-wA-Kge"/>
                             <constraint firstItem="9cP-JX-OlE" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" id="ywK-JL-FJp"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="mapView" destination="9cP-JX-OlE" id="Kr2-gX-uas"/>
+                        <outlet property="segmentControl" destination="hyO-Lo-Lkg" id="GG3-Pz-TgO"/>
+                        <outlet property="viewButtonAddAnnotation" destination="vPc-R2-6j0" id="9Jt-gI-HbS"/>
+                        <outlet property="viewForSegmentControll" destination="loi-HC-LGz" id="h9e-4Y-1SW"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+                <pongPressGestureRecognizer allowableMovement="5" minimumPressDuration="1" id="zLn-Qn-oQr"/>
             </objects>
             <point key="canvasLocation" x="15.942028985507248" y="137.94642857142856"/>
         </scene>
@@ -41,6 +86,9 @@
     <resources>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemGrayColor">
+            <color red="0.55686274509803924" green="0.55686274509803924" blue="0.57647058823529407" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </systemColor>
     </resources>
 </document>
