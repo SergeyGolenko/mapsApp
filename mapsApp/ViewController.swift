@@ -48,6 +48,7 @@ class ViewController: UIViewController {
         viewForSegmentControll.layer.cornerRadius = 30
         viewButtonAddAnnotation.layer.cornerRadius = 5
         configureSegmentControll()
+        
     }
     
     fileprivate func geocodeAndAnnotate(text:String){
@@ -59,11 +60,14 @@ class ViewController: UIViewController {
             guard let placemarks = placemarks else {return}
             let placemark = placemarks.first
             let coordinates = placemark?.location?.coordinate
-            let newAnnotation = MKPointAnnotation()
-            newAnnotation.coordinate = coordinates!
-            self.mapView.addAnnotation(newAnnotation)
+            let destinationInformation = MKPlacemark(coordinate: coordinates!)
+            let mapItem = MKMapItem(placemark: destinationInformation)
+//            let newAnnotation = MKPointAnnotation()
+//            newAnnotation.coordinate = coordinates!
+//            self.mapView.addAnnotation(newAnnotation)
             
-            
+            MKMapItem.openMaps(with: [mapItem], launchOptions:nil)
+
         }
     }
     
@@ -93,6 +97,14 @@ extension ViewController : CLLocationManagerDelegate {
 
 
 extension ViewController : MKMapViewDelegate {
+    
+    
+    func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
+        let cluster = MKClusterAnnotation(memberAnnotations: memberAnnotations)
+        cluster.title = String(memberAnnotations.count)
+        
+        return cluster
+    }
     
     fileprivate func setupMapSnapshot(annotation: MKAnnotationView){
         let options = MKMapSnapshotter.Options()
@@ -138,6 +150,7 @@ extension ViewController : MKMapViewDelegate {
         marker.canShowCallout = true
         marker.leftCalloutAccessoryView = UIImageView(image: #imageLiteral(resourceName: "chevron"))
         marker.rightCalloutAccessoryView = UIImageView(image: #imageLiteral(resourceName: "pin"))
+        marker.clusteringIdentifier = "coffee"
         setupMapSnapshot(annotation:marker )
          
         return marker
