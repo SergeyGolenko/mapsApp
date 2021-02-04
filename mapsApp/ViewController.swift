@@ -59,14 +59,44 @@ class ViewController: UIViewController {
             }
             guard let placemarks = placemarks else {return}
             let placemark = placemarks.first
+            
             let coordinates = placemark?.location?.coordinate
             let destinationInformation = MKPlacemark(coordinate: coordinates!)
-            let mapItem = MKMapItem(placemark: destinationInformation)
+           // let mapItem = MKMapItem(placemark: destinationInformation)
+            let startingPoint = MKMapItem.forCurrentLocation()
+            let finishPoint = MKMapItem(placemark: destinationInformation)
+            let directionsRequest = MKDirections.Request()
+            directionsRequest.transportType = .automobile
+            directionsRequest.source = startingPoint
+            directionsRequest.destination = finishPoint
+            let buildDirection = MKDirections(request: directionsRequest)
+            buildDirection.calculate { (response, error) in
+                if error != nil {
+                    print(error)
+                }
+                if let response = response {
+                    guard let route = response.routes.first else {return}
+                    let steps = route.steps
+                    if !steps.isEmpty{
+                        for step in route.steps {
+                            print("next step - \(step.instructions)")
+                        }
+                    }
+                    self.mapView.addOverlay(route.polyline, level: .aboveRoads)
+                    
+                }
+            }
+            
+            
+//            mapItem.pointOfInterestCategory = .carRental
+//            mapItem.name = "I HERE"
+//            mapItem.phoneNumber = "+35875890478693586"
+//            MKDirections.Request(contentsOf: mapItem.url!)
 //            let newAnnotation = MKPointAnnotation()
 //            newAnnotation.coordinate = coordinates!
 //            self.mapView.addAnnotation(newAnnotation)
             
-            MKMapItem.openMaps(with: [mapItem], launchOptions:nil)
+         //   MKMapItem.openMaps(with: [mapItem], launchOptions:nil)
 
         }
     }
@@ -97,6 +127,13 @@ extension ViewController : CLLocationManagerDelegate {
 
 
 extension ViewController : MKMapViewDelegate {
+    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        let render = MKPolylineRenderer(overlay: overlay)
+        render.strokeColor = .blue
+        render.lineWidth = 1
+        return render
+    }
     
     
     func mapView(_ mapView: MKMapView, clusterAnnotationForMemberAnnotations memberAnnotations: [MKAnnotation]) -> MKClusterAnnotation {
